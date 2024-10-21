@@ -59,7 +59,7 @@ function App() {
       <div className={gameStatus?"reveal":"hide"}>
         <h1 className="heading">Dog Memory Card Game</h1>
         <div className="text">
-          <h2 className="explain">Challenge: Only click each an image once, try get a best score of 10!</h2>
+          <h2 className="explain">Challenge: Only click each image once, try get a best score of 10!</h2>
           <Scoreboard thisScore={thisScore} bestScore={bestScore}/>
         </div>
         
