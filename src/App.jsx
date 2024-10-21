@@ -21,10 +21,6 @@ function App() {
   function handleGameFinish(){
     setBestScore(thisScore);
     setThisScore(0);
-    console.log("thisScore");
-    console.log(thisScore);
-    console.log("bestScore");
-    console.log(bestScore);
     //set all isClicked to no
     let resetData = imageData;
     resetData.map((gif)=>{
@@ -35,10 +31,6 @@ function App() {
   function handleRound(thisRoundData){
     setThisScore(thisScore+1);
     handleShuffle(thisRoundData)
-    console.log("thisScore");
-    console.log(thisScore);
-    console.log("bestScore");
-    console.log(bestScore);
    
   }
   function handleImageClick(e){

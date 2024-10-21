@@ -12,7 +12,6 @@ function Card({setImageData,imageData}){
             })
             .then(function(response) {
                 let gifArray = [];
-                console.log(response.data)
                 for(let i=0;i<response.data.length;i++){
                     let gifObject = {id:response.data[i].id, url:response.data[i].images.original.url, title:response.data[i].title, isClicked:"no"};
                     gifArray.push(gifObject);
