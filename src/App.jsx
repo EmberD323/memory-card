@@ -1,35 +1,83 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import './style/App.css'
+import Card from './components/getImages'
+import shuffle from './components/shuffle';
+import Scoreboard from './components/scoreboard';
 
 function App() {
-  const [count, setCount] = useState(0)
+  let [imageData, setImageData] = useState([]);
+  let [gameStatus, setGameStatus] = useState(false);
+  let [bestScore,setBestScore] = useState(0);
+  let [thisScore,setThisScore] = useState(0);
 
-  return (
+  function handlePlayGame(){
+    setGameStatus(!gameStatus)
+  }
+  function handleShuffle(thisRoundData){
+    let shuffledImageData = shuffle(thisRoundData);
+    setImageData(shuffledImageData);
+  }
+  function handleGameFinish(){
+    setBestScore(thisScore);
+    setThisScore(0);
+    console.log("thisScore");
+    console.log(thisScore);
+    console.log("bestScore");
+    console.log(bestScore);
+    //set all isClicked to no
+    let resetData = imageData;
+    resetData.map((gif)=>{
+      gif.isClicked = "no";
+    })
+    setImageData(resetData);
+  }
+  function handleRound(thisRoundData){
+    setThisScore(thisScore+1);
+    handleShuffle(thisRoundData)
+    console.log("thisScore");
+    console.log(thisScore);
+    console.log("bestScore");
+    console.log(bestScore);
+   
+  }
+  function handleImageClick(e){
+    //find gif in array
+    let thisRoundData = imageData;
+    thisRoundData.map((gif)=>{
+      if(gif.id == e.target.id){
+        //if already clicked end game -set score to 0
+        if(gif.isClicked == "yes"){
+          handleGameFinish()
+        }
+        else{//otherwise change click to yes and add to current score
+          gif.isClicked = "yes";
+          handleRound(thisRoundData);
+        }
+        
+      }
+    })
+  }
+
+
+  return(
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <button className={gameStatus?"hide":"reveal"} onClick={handlePlayGame}>Play Game</button>
+    
+      <div className={gameStatus?"reveal":"hide"}>
+        <h1 className="heading">Dog Memory Card Game</h1>
+        <div className="text">
+          <h2 className="explain">Challenge: Only click each an image once, try get a best score of 10!</h2>
+          <Scoreboard thisScore={thisScore} bestScore={bestScore}/>
+        </div>
+        
+        <div className="imageCards" onClick={handleImageClick}>
+          <Card setImageData={setImageData} imageData={imageData}/>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
+
 }
 
 export default App
